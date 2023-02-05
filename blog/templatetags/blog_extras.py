@@ -42,7 +42,11 @@ def col(context, extra_classes=""):
 def endcol():
   return format_html('</div>')
 
+import logging
+logger = logging.getLogger(__name__)
+
 @register.inclusion_tag("blog/post-list.html")
 def recent_posts(post):
   posts = Post.objects.exclude(pk=post.pk)[:5]
+  logger.debug("Loaded %d recent posts for post %d", len(posts), post.pk)
   return {'title': 'Recent Posts', 'posts': posts}
